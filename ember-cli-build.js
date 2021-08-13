@@ -7,9 +7,9 @@ module.exports = function (defaults) {
     // Add options here
     postcssOptions: {
       compile: {
-        plugins: [require('tailwindcss')]
-      }
-    }
+        plugins: [require('tailwindcss')],
+      },
+    },
   });
 
   // Use `app.import` to add additional libraries to the generated

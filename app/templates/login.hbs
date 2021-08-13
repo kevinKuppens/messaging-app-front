@@ -1,0 +1,18 @@
+<div class="max-w-xl bg-indigo-100 rounded shadow mx-auto py-6 px-6 mt-4">
+    <h3 class="text-2xl font-bold my-4">Welcome back.</h3>
+    <p class="text-blue-400">Don't have a account yet ? <LinkTo @route="register" class="text-blue-700 font-bold hover:underline cursor-pointer">Sign up free</LinkTo></p>
+    <form class="mt-4 py-4 flex-col">
+        <div class="bg-blue-50 rounded pt-1 pb-2 px-2 flex-col w-full mt-2">
+            <label class="block text-blue-300" for="email">Email</label>
+            <input class="bg-transparent w-full px-2 py-1 border-b-2 focus:outline-none " name="email" placeholder="name@gmail.com"/>
+        </div>
+        <div class="bg-blue-50 rounded pt-1 pb-2 px-2 flex-col mt-2 w-full">
+            <label class="block text-blue-300" for="password">Password</label>
+            <input  class="bg-transparent w-full px-2 py-1 border-b-2 focus:outline-none "name="password" placeholder="5+ letter, 1+ capital letter, 1+ symbols"/>
+        </div>
+    <div class="mt-6 flex items-center justify-center">
+        <LinkTo @route="/" class="py-2 px-6 rounded hover:underline hover:text-blue-500 transition-all cursor-pointer" href='#'>cancel</LinkTo>
+        <button class="border-2 border-blue-700 bg-blue-700 py-2 px-6 rounded text-blue-100 shadow-sm hover:bg-blue-400 hover:border-blue-400 hover:shadow-xl hover:text-white transition-all cursor-pointer" type="submit">Log in</button>
+    </div>   
+    </form>
+</div>
