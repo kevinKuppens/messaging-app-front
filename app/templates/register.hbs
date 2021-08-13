@@ -2,28 +2,45 @@
     <p class="text-blue-400 uppercase">Start for free</p>
     <h3 class="text-2xl font-bold my-4">Sign up to B-message.</h3>
     <p class="text-blue-400">Already a member ? <LinkTo @route="login"class="text-blue-700 font-bold hover:underline cursor-pointer">Log in</LinkTo></p>
-    <form class="mt-4 py-4 flex-col">
+ 
+    <form class="mt-4 py-4 flex-col" {{on "submit" this.launch}}>
         <div class="flex w-full justify-between">
             <div class="bg-blue-50 rounded pt-1 pb-2 px-2 flex-col w-1/2">
                 <label class="block text-blue-300" for="firstname">Firstname</label>
-                <input class="bg-transparent w-full px-2 py-1 border-b-2 focus:outline-none " name="firstname" placeholder="John"/>
+                <input id="firstname" type="text" class="bg-transparent w-full px-2 py-1 border-b-2 focus:outline-none " name="firstname" placeholder="John"/>
+                
+                {{#if this.model.firstName.active}}
+                 <p class="text-red-500 font-bold">{{this.model.firstName.message}}</p>
+                {{/if}}
+                 
+              
             </div>
             <div class="bg-blue-50 rounded pt-1 pb-2 px-2 flex-col w-1/2 ml-2">
                 <label class="block text-blue-300" for="lastname">Lastname</label>
-                <input class="bg-transparent w-full px-2 py-1 border-b-2 focus:outline-none " name="lastname" placeholder="Doe"/>
+                <input id="lastname" type="text" class="bg-transparent w-full px-2 py-1 border-b-2 focus:outline-none " name="lastname" placeholder="Doe"/>
+                {{#if this.model.lastName.active}}
+                 <p class="text-red-500 font-bold">{{this.model.lastName.message}}</p>
+                {{/if}}
             </div>
         </div>
         <div class="bg-blue-50 rounded pt-1 pb-2 px-2 flex-col w-full mt-2">
             <label class="block text-blue-300" for="email">Email</label>
-            <input class="bg-transparent w-full px-2 py-1 border-b-2 focus:outline-none " name="email" placeholder="name@gmail.com"/>
+            <input id="email"type="text" class="bg-transparent w-full px-2 py-1 border-b-2 focus:outline-none " name="email" placeholder="name@gmail.com"/>
+            {{#if this.model.email.active}}
+                 <p class="text-red-500 font-bold">{{this.model.email.message}}</p>
+                {{/if}}
         </div>
         <div class="bg-blue-50 rounded pt-1 pb-2 px-2 flex-col mt-2 w-full">
             <label class="block text-blue-300" for="password">Password</label>
-            <input  class="bg-transparent w-full px-2 py-1 border-b-2 focus:outline-none "name="password" placeholder="5+ letter, 1+ capital letter, 1+ symbols"/>
+            <input id="password" type="password" class="bg-transparent w-full px-2 py-1 border-b-2 focus:outline-none "name="password" placeholder="5+ letter, 1+ capital letter, 1+ symbols"/>
+            {{#if this.model.password.active}}
+                 <p class="text-red-500 font-bold">{{this.model.password.message}}</p>
+                {{/if}}
         </div>
     <div class="mt-6 flex items-center justify-center">
+        
         <LinkTo @route="/" class="py-2 px-6 rounded hover:underline hover:text-blue-500 transition-all cursor-pointer" href='#'>cancel</LinkTo>
-            <button class="border-2 border-blue-700 bg-blue-700 py-2 px-6 rounded text-blue-100 shadow-sm hover:bg-blue-400 hover:border-blue-400 hover:shadow-xl hover:text-white transition-all cursor-pointer" type="submit">Register</button>
+            <button class="border-2 border-blue-700 bg-blue-700 py-2 px-6 rounded text-blue-100 shadow-sm hover:bg-blue-400 hover:border-blue-400 hover:shadow-xl hover:text-white transition-all cursor-pointer" type="submit">Register</button>      
     </div>   
     </form>
 </div>
