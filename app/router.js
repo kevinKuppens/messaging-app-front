@@ -10,7 +10,9 @@ Router.map(function () {
   this.route('/', function () {
     this.route('register');
   });
+  // eslint-disable-next-line ember/no-shadow-route-definition
   this.route('register');
   this.route('login');
   this.route('success');
+  this.route('dashboard');
 });
