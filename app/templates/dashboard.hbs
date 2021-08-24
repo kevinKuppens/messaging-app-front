@@ -1,6 +1,5 @@
-<div class="w-full h-full bg-blue-300 flex">
-    {{log this.model}}
+<div class="w-full h-full flex mt-2">
     <div class="w-1/6 h-full bg-red-500"> MESSAGES LIST</div>
-    <div class="w-4/6 h-full bg-green-500"> MESSAGE</div>
-    <FriendsList @model={{this.model.friendsList}}/>
+    <Conversation @model={{this.model.currentUser }}/>
+    <FriendsList @model={{this.model.currentUser.friendsList}} @user-service={{this.model}}/>
 </div>

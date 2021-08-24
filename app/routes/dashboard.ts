@@ -18,6 +18,6 @@ export default class Dashboard extends Route.extend({
   }
 
   model(){
-    return this.user.currentUser;
+    return this.user;
   }
 }

@@ -1,24 +1,110 @@
-<div class="flex flex-col justify-between text-center w-1/6 h-full">
-    <h4 class="text-xl py-2 border-b-2 border-blue-700 h-1/8">contacts</h4>
-    <ul class="h-5/6 bg-blue-600">
-{{#each @model.friends as |friend|}}
-<li>
-    <div class="py-2 border-b-1 border-blue-700 shadow-sm ">
-        {{friend.name}}
-    </div>
-</li>
+<div class="flex flex-col justify-between px-4 w-1/6 h-full">
+    <h4 class="py-2 px-2 text-blue-700 border-b border-blue-700">contacts</h4>
+    <ul class="h-full my-2 rounded">
+        {{#each @model.friends as |friend|}}
+        <li class="relative">
+            <button 
+            type="button" 
+            class="w-full text-sm text-left py-2 px-4 border-b shadow mt-2 rounded bg-blue-100 text-blue-500 hover:bg-blue-50 hover:text-blue-700"
+            {{on "click" (fn toggleNewConversation friend)}}>
+                {{friend.firstName}} {{friend.lastName}}
+            </button>
+            <form id={{friend.id}} class="absolute top-0 right-36 z-10 py-4 px-6 bg-blue-200 hidden w-52 rounded flex flex-col justify-between items-center border-0 shadow"
+            {{on "submit" (fn createConversation friend.id)}} onsubmit='return false'>
+                
+                <h4 class="mb-2 self-start">New message : </h4>
+                <textarea type='text' class="rounded overflow-auto" rows="6"></textarea>
+                <button type="submit" class="self-end mt-2 bg-blue-600 text-blue-300 py-2 px-4 rounded shadow hover:text-white hover:bg-blue-700"
+                >Send</button>
+            </form>
+        </li>
+        
 
-{{/each}}
+        {{/each}}
+            
     </ul>
-    <div class="flex flex-col justify-center items-center">
-        <button class="py-2 bg-green-200 px-2 shadow rounded-lg" {{on "click" toggleFriendFrame}}>Add friend</button>
+    <div class="flex  justify-end items-center mx-2">
+        <button class="py-2 bg-blue-600 hover:bg-blue-700 px-2 shadow rounded-lg text-yellow-200 hover:text-white" type="button" {{on "click" toggleFriendFrame}}><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg></button>
+        <button class="relative ml-2 p-2 bg-blue-600 hover:bg-blue-700 text-yellow-200 hover:text-white rounded-lg shadow" type="button" {{on "click" toggleNotifications}}>
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
+                {{#if @user-service.friendRequestLength}}
+                    <p class="bg-red-700 text-white text-xs px-2 py-1 select-none bottom-7 left-7 rounded-full absolute">{{@user-service.friendRequestLength}}</p>
+                {{/if}}
+            </button>
     </div>
-    
+
 </div>
 {{#if this.showAddFriend}}
 <div class="bg-gray-500 bg-opacity-50 h-screen w-full absolute top-0 left-0 z-10 flex justify-center items-center">
-    <div class="bg-gray-300 w-2/3 h-2/3 rounded">
-    <button class="border py-2 px-4 border-blue-700 rounded" {{on "click" toggleFriendFrame}}>cancel</button>
+    <div class="bg-white p-6 rounded shadow flex flex-col items center">
+        <h3 class="text-xl border-b border-blue-700 py-2 mb-2">Add a new friend !</h3>
+        <p class="mb-2">Enter the name of your friend in the text field bellow :</p>
+        <form class="flex justify-between">
+            <input id="frd-search-field" type="text" class="py-2 px-4 rounded w-5/6 bg-blue-100" {{on 'input'
+                updateInputField}}
+                {{on "input" (fn showRequest @user-service.foundUsers)}} />
+            <button type="submit" class="text-blue-300 bg-blue-700 rounded p-2 mr-2 hover:text-white">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                </svg>
+            </button>
+        </form>
+        <ul class="h-52 my-2">
+            {{#each @user-service.foundUsers as |found|}}
+            <li class="py-2 px-3 bg-blue-100 rounded mb-2 flex justify-between items-center">
+                <p>{{found.firstName}} {{found.lastName}}</p>
+                <button type="button" {{on 'click' (fn sendRequest found.id)}} class=" 
+                     bg-blue-700
+                     text-blue-100 p-1 rounded hover:text-white">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                </button>
+            </li>
+            {{/each}}
+        </ul>
+        <div class="self-end">
+            <button class="py-2 px-4  rounded max-w-min" type="button" {{on "click" toggleFriendFrame}}>cancel</button>
+            
+        </div>
+    </div>
+</div>
+{{/if}}
+{{#if this.showNotifications}}
+<div class="bg-gray-500 bg-opacity-50 h-screen w-full absolute top-0 left-0 z-10 flex justify-center items-center">
+    <div class="bg-white p-6 h-2/3 w-1/3 rounded shadow flex flex-col items-center">
+        <div class="py-2 px-4 border-b w-full border-blue-700 flex justify-between">
+            <h3 class="text-xl">Notifications</h3>
+            <button 
+                type="button"
+                {{on "click" toggleNotifications}}
+                class="text-blue-700">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                </button>
+        </div>
+        <div class="h-2/3 w-full">
+            <ul>
+                {{#each @user-service.friendRequestUsers as |request|}}
+                
+                    <li class="py-2 px-2 bg-blue-200 flex justify-between items-center my-2 rounded shadow">
+                        <p>{{request.firstName}} {{request.lastName}}</p>
+                        <div class="flex mr-2">
+                            <button class="bg-green-600 text-white rounded-full p-1" type="button" {{on "click" (fn acceptRequest request.requestId)}}>
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            </button>
+                            <button class="bg-red-600 text-white rounded-full p-1 ml-2" type="button" {{on "click" (fn refuseRequest request.requestId)}}>
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                            </button>
+                        </div>
+                    </li>
+                {{/each}}
+            </ul>
+                
+        </div>
     </div>
 </div>
 {{/if}}
